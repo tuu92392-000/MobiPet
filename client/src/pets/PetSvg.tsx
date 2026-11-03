@@ -9,6 +9,9 @@ export const PALETTES: Record<Palette, { body: string; shade: string; belly: str
   3: { body: '#D6C8EE', shade: '#B5A2DE', belly: '#EFE9F8', line: '#4E3A7D' },
 };
 
+/** The MobiPet logo in the header: sage darkened to 3.25:1 against the white header, with a dark green outline. */
+export const LOGO_COLORS = { body: '#649B70', shade: '#4F7D59', belly: '#A8C7AF', line: '#1F3D28' };
+
 export type PetAction = 'idle' | 'bounce' | 'celebrate';
 
 interface Anchors {
@@ -41,11 +44,13 @@ interface Props {
   className?: string;
   /** Position and size when nested inside another SVG (user units). */
   box?: { x: number; y: number; size: number };
+  /** Overrides the palette's colors (used only by the header logo). */
+  colors?: Colors;
 }
 
-export function PetSvg({ species, palette, mood, stage = 2, accessory = null, action = 'idle', breathing = false, label, className, box }: Props) {
+export function PetSvg({ species, palette, mood, stage = 2, accessory = null, action = 'idle', breathing = false, label, className, box, colors }: Props) {
   const reduce = useReducedMotion();
-  const c = PALETTES[palette];
+  const c = colors ?? PALETTES[palette];
   const a = ANCHORS[species];
   const asleep = mood === 'sleepy';
   const s = STAGE_SCALE[stage - 1];

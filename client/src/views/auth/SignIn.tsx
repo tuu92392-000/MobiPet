@@ -1,4 +1,4 @@
-// Staff sign-in. Patients never sign in here: a nurse or aid starts their bedside tablet from Care Team.
+// Staff sign-in. Patients never sign in here: a nurse or aide starts their bedside tablet from Care Team.
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ApiError } from '../../api/client';
@@ -55,7 +55,7 @@ export function SignIn() {
           Family member?{' '}
           <Link to="/family" className="font-bold text-sky-deep underline underline-offset-4">Enter your invite code</Link>
         </p>
-        <p className="text-muted">Patients: your nurse or mobility aid starts the bedside tablet for you.</p>
+        <p className="text-muted">Patients: your nurse or mobility aide starts the bedside tablet for you.</p>
       </div>
     </section>
   );

@@ -24,7 +24,7 @@ const HEADERS = {
   shifts: ['patient_id', 'room', 'patient', 'shift', 'shift_start', 'goal_level', 'times_per_shift', 'times_done', 'goal_met'],
 } as const;
 
-const ROLE = { nurse: 'Nurse', mobility_aid: 'Mobility aid' } as const;
+const ROLE = { nurse: 'Nurse', mobility_aid: 'Mobility aide' } as const;
 
 /** Local date and time, unambiguous and sortable. */
 function stamp(t: number): string {

@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { DB, Patient } from '../shared/types';
-import { buildSeed } from './seed';
+import { buildSeed, migrateSettings } from './seed';
 import { bus } from './events';
 
 const DATA_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), 'data');
@@ -18,7 +18,7 @@ function load(): DB {
   if (!PERSIST) return buildSeed();
   try {
     const parsed = JSON.parse(fs.readFileSync(DB_FILE, 'utf8')) as DB;
-    if (parsed.version === 2) return parsed;
+    if (parsed.version === 2) return migrateSettings(parsed);
   } catch {
     // Missing or unreadable: fall through to seed.
   }

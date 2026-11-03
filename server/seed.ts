@@ -84,7 +84,7 @@ const SPECS: Spec[] = [
   {
     first: 'Winifred', lastInitial: 'L', room: '414', cohort: 'med-surg',
     goal: [6, 2], pet: ['nimbus', 3, 'Pip', null], daysIn: 2,
-    today: [[11, 20, 6, 'confirmed']], textSize: 3, readAloud: true,
+    today: [[11, 20, 6, 'confirmed']], textSize: 3,
     motivators: ['her radio programs', 'her cat Biscuit'],
   },
   {
@@ -130,6 +130,26 @@ function atToday(now: number, hour: number, minute: number): number {
 
 export function demoStartTime(realNow: number): number {
   return atToday(realNow, DEMO_START.hour, DEMO_START.minute);
+}
+
+/** 2: read-aloud became opt-in (off for every patient). */
+export const SETTINGS_VERSION = 2;
+
+/** Saved data from an older settings version: reset read-aloud to the new default, keep everything else
+ *  (staff labels saved as "Mobility Aid N" pick up the "Mobility Aide N" wording). */
+export function migrateSettings(db: DB): DB {
+  if ((db.settingsVersion ?? 1) >= SETTINGS_VERSION) return db;
+  for (const p of db.patients) p.settings.readAloud = false;
+  const aide = (label: string) => label.replace(/\bMobility Aid\b/g, 'Mobility Aide');
+  for (const a of db.accounts) a.label = aide(a.label);
+  for (const m of db.messages) m.from = aide(m.from);
+  for (const e of db.exportLog) e.label = aide(e.label);
+  for (const l of db.logs) {
+    if (l.loggedBy) l.loggedBy.label = aide(l.loggedBy.label);
+    if (l.reviewedBy) l.reviewedBy.label = aide(l.reviewedBy.label);
+  }
+  db.settingsVersion = SETTINGS_VERSION;
+  return db;
 }
 
 export function buildSeed(realNow = Date.now()): DB {
@@ -247,13 +267,13 @@ export function buildSeed(realNow = Date.now()): DB {
     msg('family:p413', 'p413', atToday(now, 12, 0), 'acct_fam_p413', 'family', 'Lucía', '¡Tú puedes!', { kind: 'preset', deliveredAt: null }),
     msg('family:p416', 'p416', atToday(now, 12, 10), 'acct_fam_p416', 'family', 'Sam', 'sunflower', { kind: 'sticker', deliveredAt: null }),
     // Room 411: a mobility aide and the patient.
-    msg('careteam:p411', 'p411', atToday(now, 10, 5), 'acct_aid1', 'mobility_aid', 'Mobility Aid 1', 'Nice walk this morning, Barnaby! I’ll stop by after lunch for another lap.', read('acct_aid1', 'acct_p411')),
+    msg('careteam:p411', 'p411', atToday(now, 10, 5), 'acct_aid1', 'mobility_aid', 'Mobility Aide 1', 'Nice walk this morning, Barnaby! I’ll stop by after lunch for another lap.', read('acct_aid1', 'acct_p411')),
     msg('careteam:p411', 'p411', atToday(now, 10, 20), 'acct_p411', 'patient', 'Barnaby', 'Sounds good. Clover and I will be ready.', read('acct_p411', 'acct_aid1')),
     // Staff: the unit thread, 1:1 threads, and messages tagged to a patient. Staff messages are never delivered to a tablet.
     msg('unit', null, atToday(now, 7, 20), 'acct_nurse1', 'nurse', 'Nurse 1', 'Morning, team. Two new goals today: 410 is up to hallway walks and 417 to 250 feet.', { deliveredAt: null, readBy: ['acct_nurse1', 'acct_nurse2', 'acct_aid1'] }),
-    msg('unit', null, atToday(now, 7, 32), 'acct_aid1', 'mobility_aid', 'Mobility Aid 1', 'Got it. I’ll start with 410, 411 and 413.', { deliveredAt: null, readBy: ['acct_aid1', 'acct_nurse1', 'acct_nurse2'] }),
+    msg('unit', null, atToday(now, 7, 32), 'acct_aid1', 'mobility_aid', 'Mobility Aide 1', 'Got it. I’ll start with 410, 411 and 413.', { deliveredAt: null, readBy: ['acct_aid1', 'acct_nurse1', 'acct_nurse2'] }),
     msg('unit', null, atToday(now, 13, 18), 'acct_nurse2', 'nurse', 'Nurse 2', 'Holding walks for 418 until I’ve checked in about the dizziness flag.', { deliveredAt: null, patientTag: 'p418', readBy: ['acct_nurse2'] }),
-    msg(staffThreadIdFor('acct_aid1', 'acct_nurse1'), null, atToday(now, 11, 50), 'acct_aid1', 'mobility_aid', 'Mobility Aid 1', '412 hasn’t been up since 9. Okay to try a stand after lunch?', { deliveredAt: null, patientTag: 'p412', readBy: ['acct_aid1', 'acct_nurse1'] }),
+    msg(staffThreadIdFor('acct_aid1', 'acct_nurse1'), null, atToday(now, 11, 50), 'acct_aid1', 'mobility_aid', 'Mobility Aide 1', '412 hasn’t been up since 9. Okay to try a stand after lunch?', { deliveredAt: null, patientTag: 'p412', readBy: ['acct_aid1', 'acct_nurse1'] }),
     msg(staffThreadIdFor('acct_aid1', 'acct_nurse1'), null, atToday(now, 12, 2), 'acct_nurse1', 'nurse', 'Nurse 1', 'Yes, standing for a minute is her goal. Chair first if she’s tired.', { deliveredAt: null, patientTag: 'p412', readBy: ['acct_nurse1', 'acct_aid1'] }),
     msg(staffThreadIdFor('acct_aid2', 'acct_nurse2'), null, atToday(now, 12, 30), 'acct_nurse2', 'nurse', 'Nurse 2', 'Can you help 415 with the chair transfer at 2? Needs assist.', { deliveredAt: null, patientTag: 'p415', readBy: ['acct_nurse2'] }),
     // Room 414: a nurse note thread the patient hasn't seen yet.
@@ -274,7 +294,7 @@ export function buildSeed(realNow = Date.now()): DB {
   const ymd = (t: number) => new Date(t).toLocaleDateString('en-CA');
   const exportLog = [
     { id: newId('exp'), at: atToday(now - 24 * HOUR, 16, 10), accountId: 'acct_nurse2', label: 'Nurse 2', role: 'nurse' as const, scope: 'unit', scopeLabel: 'Unit', format: 'xlsx' as const, rowCount: 412, filename: `mobipet_unit_${ymd(now - 24 * HOUR)}.xlsx` },
-    { id: newId('exp'), at: atToday(now, 9, 5), accountId: 'acct_aid1', label: 'Mobility Aid 1', role: 'mobility_aid' as const, scope: 'p410', scopeLabel: 'Room 410', format: 'csv' as const, rowCount: 58, filename: `mobipet_room410_${ymd(now)}.csv` },
+    { id: newId('exp'), at: atToday(now, 9, 5), accountId: 'acct_aid1', label: 'Mobility Aide 1', role: 'mobility_aid' as const, scope: 'p410', scopeLabel: 'Room 410', format: 'csv' as const, rowCount: 58, filename: `mobipet_room410_${ymd(now)}.csv` },
   ];
   const cheer = (from: string, to: string, body: BuddyCheerBody, h: number, m: number) => ({ id: newId('cheer'), at: atToday(now, h, m), fromPatientId: from, toPatientId: to, body });
   const buddyCheers = [
@@ -282,5 +302,5 @@ export function buildSeed(realNow = Date.now()): DB {
     cheer('p417', 'p411', 'thumbs-up', 10, 40),
     cheer('p410', 'p416', 'proud', 11, 55),
   ];
-  return { version: 2, clockOffsetMs: now - realNow, patients, logs, flags, messages, chats, accounts, sessions: [], notes, exportLog, buddyCheers };
+  return { version: 2, settingsVersion: SETTINGS_VERSION, clockOffsetMs: now - realNow, patients, logs, flags, messages, chats, accounts, sessions: [], notes, exportLog, buddyCheers };
 }

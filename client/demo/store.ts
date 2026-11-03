@@ -2,7 +2,7 @@
 // localStorage instead of a file. Every storage call is wrapped: private windows and blocked storage
 // still work, the data just lasts until the page is closed. Replaces server/store.ts.
 import type { DB, Patient } from '../../shared/types';
-import { buildSeed } from '../../server/seed';
+import { buildSeed, migrateSettings } from '../../server/seed';
 import { bus } from '../../server/events';
 
 const KEY = 'mobipet.demo.db';
@@ -14,7 +14,7 @@ function read(): DB | null {
   try {
     const raw = window.localStorage.getItem(KEY);
     const parsed = raw ? (JSON.parse(raw) as DB) : null;
-    return parsed && parsed.version === 2 && Array.isArray(parsed.buddyCheers) ? parsed : null;
+    return parsed && parsed.version === 2 && Array.isArray(parsed.buddyCheers) ? migrateSettings(parsed) : null;
   } catch {
     return null;
   }

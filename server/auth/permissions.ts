@@ -14,7 +14,7 @@ export interface Actor {
 }
 
 export const RULES = {
-  /** Care Team tab, both Aid and Nurse views. */
+  /** Care Team tab, both Aide and Nurse views. */
   'careTeam.view': { nurse: 'any', mobility_aid: 'any' },
   /** All unit patients' mobility data: board, unit facts, flags. */
   'unit.read': { nurse: 'any', mobility_aid: 'any' },

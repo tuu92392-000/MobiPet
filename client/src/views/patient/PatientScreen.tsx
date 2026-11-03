@@ -1,6 +1,6 @@
 // The bedside tablet: pet, goal, "I did it!" buttons, help, settings.
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { BellRing, Gem, Mail, Settings, Shirt } from 'lucide-react';
+import { BellRing, Gem, Mail, Settings, Shirt, Volume2, VolumeX } from 'lucide-react';
 import type { AccessoryId, Level, PatientSettings, PetChoice } from '@shared/types';
 import type { LogResponse, PatientView, ThreadSummary } from '@shared/api';
 import { isRestGoal, requiresAssistGate } from '@shared/jhhlm';
@@ -31,6 +31,16 @@ import { MessageDelivery, messageText } from './MessageDelivery';
 
 const ROOT_FONT = ['20px', '24px', '28px'];
 
+// Whether the patient tucked the chat button into the side tab, remembered per patient on this device.
+const chatHiddenKey = (patientId: string) => `mobipet.chatHidden.${patientId}`;
+function readChatHidden(patientId: string): boolean {
+  try {
+    return window.localStorage.getItem(chatHiddenKey(patientId)) === '1';
+  } catch {
+    return false;
+  }
+}
+
 function greetingKey(now: number): MsgKey {
   const h = new Date(now).getHours();
   if (h >= 5 && h < 12) return 'greeting.morning';
@@ -52,6 +62,10 @@ export function PatientScreen({ patientId: id, wokeAt = null }: { patientId: str
   const [celebrating, setCelebrating] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [breathingOpen, setBreathingOpen] = useState(false);
+  const [chatHidden, setChatHidden] = useState(() => readChatHidden(id));
+  useEffect(() => setChatHidden(readChatHidden(id)), [id]);
+  // The chat helper's speech bubble shows once each time this view opens.
+  const [bubble, setBubble] = useState<'pending' | 'showing' | 'done'>('pending');
   const spokenNudge = useRef<string | null>(null);
   const chatFab = useRef<HTMLButtonElement>(null);
   // The floating button pulses for a nudge the patient hasn't opened the chat for yet.
@@ -128,6 +142,10 @@ export function PatientScreen({ patientId: id, wokeAt = null }: { patientId: str
   const welcoming = !setupOpen && wokeAt !== null && welcomedAt !== wokeAt && !!view?.patient.pet;
   const busyOverlay = setupOpen || welcoming || celebrating || chatOpen || messagesOpen || breathingOpen || helpOpen || gateLevel !== null || reward !== null || !view?.patient.pet;
   const nextMessage = busyOverlay ? null : ([...(view?.messages ?? [])].filter((m) => m.deliveredAt === null).sort((a, b) => a.at - b.at)[0] ?? null);
+  // The bubble waits until nothing else is on screen, including a message being delivered.
+  useEffect(() => {
+    if (bubble === 'pending' && !busyOverlay && !nextMessage) setBubble(chatHidden ? 'done' : 'showing');
+  }, [bubble, busyOverlay, nextMessage, chatHidden]);
   const spokenMessage = useRef<string | null>(null);
   useEffect(() => {
     if (!nextMessage || spokenMessage.current === nextMessage.id || !view) return;
@@ -200,8 +218,8 @@ export function PatientScreen({ patientId: id, wokeAt = null }: { patientId: str
         setCelebrating(true);
         const praise = t('activity.goalMet', { pet: petName });
         setAnnounce(praise + extra);
-        // Spoken praise is part of the celebration when read-aloud or sounds are on.
-        if (patient.settings.readAloud || patient.settings.sound) speak(praise + extra, lang);
+        // Spoken praise is part of the celebration when read-aloud is on.
+        if (patient.settings.readAloud) speak(praise + extra, lang);
       } else {
         play('bounce');
         say(
@@ -271,6 +289,29 @@ export function PatientScreen({ patientId: id, wokeAt = null }: { patientId: str
     }
   }
 
+  function hideChat(hidden: boolean) {
+    setChatHidden(hidden);
+    setBubble('done');
+    try {
+      window.localStorage.setItem(chatHiddenKey(patient.id), hidden ? '1' : '0');
+    } catch {
+      // Storage unavailable: the choice lasts until the page closes.
+    }
+  }
+
+  const readAloudOn = patient.settings.readAloud;
+  const readAloudButton = (
+    <button
+      onClick={() => {
+        if (readAloudOn) window.speechSynthesis?.cancel();
+        void changeSettings({ readAloud: !readAloudOn });
+      }}
+      className={`flex min-h-tap items-center gap-2 rounded-full border-4 px-4 text-lg font-bold ${readAloudOn ? 'border-sage-deep bg-sage/60' : 'border-line bg-paper'}`}
+    >
+      {readAloudOn ? <Volume2 aria-hidden /> : <VolumeX aria-hidden />} {t(readAloudOn ? 'readAloud.on' : 'readAloud.off')}
+    </button>
+  );
+
   const helpButton = (
     <button
       onClick={needHelp}
@@ -288,7 +329,8 @@ export function PatientScreen({ patientId: id, wokeAt = null }: { patientId: str
         <div className="flex items-center gap-3">
           <h1 className="font-display text-3xl font-extrabold">{t(greetingKey(view.now), { name: patient.firstName })}</h1>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          {readAloudButton}
           <button
             onClick={() => setSettingsOpen(true)}
             className="flex min-h-tap items-center gap-2 rounded-full border-4 border-line bg-paper px-4 text-lg font-bold"
@@ -378,8 +420,14 @@ export function PatientScreen({ patientId: id, wokeAt = null }: { patientId: str
             hasNudge={!!nudge && nudge.id !== seenNudgeId}
             onOpen={() => {
               setSeenNudgeId(nudge?.id ?? null);
+              setBubble('done');
               setChatOpen(true);
             }}
+            hidden={chatHidden}
+            onHide={() => hideChat(true)}
+            onShow={() => hideChat(false)}
+            bubble={bubble === 'showing'}
+            onBubbleDone={() => setBubble('done')}
           />
           <TalkToPip
             open={chatOpen}
@@ -447,7 +495,7 @@ export function PatientScreen({ patientId: id, wokeAt = null }: { patientId: str
           region={progression.region}
           t={t}
           onDone={() => setWelcomedAt(wokeAt)}
-          onSound={(sound) => void changeSettings({ sound })}
+          onReadAloud={(readAloud) => void changeSettings({ readAloud })}
         />
       )}
       {setupOpen && (

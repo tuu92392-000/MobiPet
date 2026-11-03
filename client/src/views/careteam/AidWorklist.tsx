@@ -1,4 +1,4 @@
-// Mobility Aid view: a hands-on worklist. Patients who need a walk now come first, then those behind,
+// Mobility Aide view: a hands-on worklist. Patients who need a walk now come first, then those behind,
 // then those on track or done. Big check-off buttons record staff-confirmed activity in one tap.
 import { useState } from 'react';
 import { Check, CheckCheck, ChevronRight, Footprints, ShieldAlert, UserRound } from 'lucide-react';

@@ -24,7 +24,7 @@ function privateText(): string[] {
 }
 
 describe('who can export', () => {
-  it('nurses and mobility aids yes; patients and family no', async () => {
+  it('nurses and mobility aides yes; patients and family no', async () => {
     expect((await raw('POST', '/exports', t.nurse, { scope: 'unit', format: 'csv' })).status).toBe(200);
     expect((await raw('POST', '/exports', t.aid, { scope: 'p412', format: 'xlsx' })).status).toBe(200);
     expect((await raw('POST', '/exports', t.patient, { scope: 'p412', format: 'csv' })).status).toBe(403);
@@ -59,7 +59,7 @@ describe('CSV', () => {
     await call('POST', '/patients/p411/logs/staff', t.aid, { level: 6 });
     const text = await (await raw('POST', '/exports', t.nurse, { scope: 'unit', format: 'csv' })).text();
     for (const p of getDB().patients) expect(text).toContain(`patient,${p.id}`);
-    expect(text).toMatch(/activity,p411,.*Confirmed \(logged by staff\),Mobility aid,Mobility Aid 1/);
+    expect(text).toMatch(/activity,p411,.*Confirmed \(logged by staff\),Mobility aide,Mobility Aide 1/);
   });
 });
 
@@ -86,7 +86,7 @@ describe('export log', () => {
     const res = await raw('POST', '/exports', t.aid, { scope: 'p415', format: 'csv' });
     const log = (await call('GET', '/exports/log', t.nurse)).body;
     expect(log.length).toBe(before + 1);
-    expect(log[0]).toMatchObject({ label: 'Mobility Aid 1', role: 'mobility_aid', scope: 'p415', scopeLabel: 'Room 415', format: 'csv' });
+    expect(log[0]).toMatchObject({ label: 'Mobility Aide 1', role: 'mobility_aid', scope: 'p415', scopeLabel: 'Room 415', format: 'csv' });
     expect(log[0].rowCount).toBe(Number(res.headers.get('x-export-rows')));
     expect(log[0].rowCount).toBeGreaterThan(0);
   });

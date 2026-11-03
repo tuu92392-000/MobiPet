@@ -49,6 +49,7 @@ export function SettingsDialog({ open, settings, t, onChange, onClose, petName, 
     <Modal open={open} onClose={onClose} labelledBy="settings-title">
       <div className="p-6">
         <h2 id="settings-title" className="font-display text-3xl font-extrabold">{t('settings.title')}</h2>
+        <Choice label={t('settings.readAloud')} value={settings.readAloud} options={toggle} onPick={(readAloud) => onChange({ readAloud })} />
         <Choice
           label={t('settings.textSize')}
           value={settings.textSize}
@@ -69,7 +70,6 @@ export function SettingsDialog({ open, settings, t, onChange, onClose, petName, 
           onPick={(language) => onChange({ language })}
         />
         <Choice label={t('settings.contrast')} value={settings.highContrast} options={toggle} onPick={(highContrast) => onChange({ highContrast })} />
-        <Choice label={t('settings.readAloud')} value={settings.readAloud} options={toggle} onPick={(readAloud) => onChange({ readAloud })} />
         <Choice label={t('settings.sound')} value={settings.sound} options={toggle} onPick={(sound) => onChange({ sound })} />
         <Choice label={t('settings.buddies')} value={settings.buddies} options={toggle} onPick={(buddies) => onChange({ buddies })} />
         <div className="mt-5">

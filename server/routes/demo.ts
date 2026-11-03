@@ -170,13 +170,13 @@ const actorOf = (id: string) => {
   return { accountId: a.id, role: a.role, label: a.label, patientId: a.patientId };
 };
 
-// Scenario: Mobility Aid 1 checks off a goal-level walk on the worklist (staff-confirmed, with who logged it).
+// Scenario: Mobility Aide 1 checks off a goal-level walk on the worklist (staff-confirmed, with who logged it).
 demo.post('/demo/scenarios/aid-check-off', (req, res) => {
   const p = scenarioPatient(req, res);
   if (!p) return;
   if (isRestGoal(p.goal)) return res.status(400).json({ error: `Room ${p.room} has a rest goal this shift` });
   recordActivity(p, p.goal.level, 'staff', staffRef(actorOf('acct_aid1')));
-  res.json({ ok: true, message: `Mobility Aid 1 checked off “${JHHLM[p.goal.level].nurse}” for Room ${p.room}` });
+  res.json({ ok: true, message: `Mobility Aide 1 checked off “${JHHLM[p.goal.level].nurse}” for Room ${p.room}` });
 });
 
 // Scenario: the patient tells family they feel dizzy. Delivered, call-button card, keyword-only flag.

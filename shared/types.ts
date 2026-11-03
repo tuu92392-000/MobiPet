@@ -33,8 +33,9 @@ export interface PatientSettings {
   language: Lang;
   textSize: 1 | 2 | 3;
   highContrast: boolean;
+  /** Read-aloud speech, including the welcome-back greeting. Off by default (opt-in). */
   readAloud: boolean;
-  /** Chimes and the spoken welcome-back greeting. On by default. */
+  /** Chimes. On by default. */
   sound: boolean;
   /** 0–1, for all speech and chimes. */
   volume: number;
@@ -226,6 +227,8 @@ export interface ExportLogEntry {
 
 export interface DB {
   version: 2;
+  /** Bumped when a patient-settings default changes, so saved data picks up the new default. */
+  settingsVersion?: number;
   /** Simulated time = real time + offset. */
   clockOffsetMs: number;
   patients: Patient[];

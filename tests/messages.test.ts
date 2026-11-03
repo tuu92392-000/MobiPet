@@ -82,7 +82,7 @@ describe('who can post where', () => {
   it('staff → patients (care team thread); not into family conversations', async () => {
     const r = await send(`careteam:${OWN}`, 'aid1', 'I’ll be by at 2 for a walk.');
     expect(r.status).toBe(201);
-    expect(r.body.message.from).toBe('Mobility Aid 1');
+    expect(r.body.message.from).toBe('Mobility Aide 1');
     expect((await send(`family:${OWN}`, 'nurse1', 'Hello')).status).toBe(403);
   });
 

@@ -4,7 +4,7 @@
 
 ### ▶ [Try the live demo](https://tuu92392-000.github.io/MobiPet/)
 
-Runs entirely in your browser: no sign-up, no install. Use the **Demo** button at the top to switch between nurse, mobility aid, patient and family. Your changes stay on your device; **Reset demo** starts over.
+Runs entirely in your browser: no sign-up, no install. Use the **Demo** button at the top to switch between nurse, mobility aide, patient and family. Your changes stay on your device; **Reset demo** starts over.
 
 > Built for the **Temple AI Build Challenge, Fall 2026** (IBIT, Fox School of Business). Student prototype; not affiliated with or endorsed by Temple Health.
 >
@@ -14,23 +14,23 @@ Hospitalized patients spend most of their stay in bed, and that immobility cause
 
 - **The nurse sets the goal.** A friendly, original pet companion motivates the patient to move toward it, walking a storybook **Journey Home** map as they do.
 - **AI** turns the goal into warm, plain-language coaching (English or Spanish) and gives nurses a one-glance, verifiable unit summary — always inside rule-based guardrails, and never with medical advice.
-- **The care team** (nurses and mobility aids) tracks progress in one **Care Team** tab with two layouts: a hands-on Mobility Aid worklist and a Nurse view with benchmarks and exports.
+- **The care team** (nurses and mobility aides) tracks progress in one **Care Team** tab with two layouts: a hands-on Mobility Aide worklist and a Nurse view with benchmarks and exports.
 - **Family** follow along and send encouragement the pet "delivers." No clinical details are ever shown to them.
 
 ## Using the demo
 
 1. Open the [live demo](https://tuu92392-000.github.io/MobiPet/) (or run it locally, below).
 2. Press **Demo** in the top bar. One tap signs in as any account through the real sign-in screens; the switcher only fills in the demo credentials listed under [Demo logins](#demo-logins-all-synthetic).
-3. Try the [6-minute demo script](#6-minute-demo-script), or explore: **Care Team** (as a nurse or mobility aid), a **bedside tablet** (as a patient, with a PIN), and the **family** view.
+3. Try the [6-minute demo script](#6-minute-demo-script), or explore: **Care Team** (as a nurse or mobility aide), a **bedside tablet** (as a patient, with a PIN), and the **family** view.
 4. **Reset demo** in the top bar puts everything back to the starting data.
 
 Demo only: don't enter real passwords, PINs or personal information anywhere.
 
 ## What's new in v2
 
-- **Real sign-in and server-side permissions.** Nurse, mobility aid, patient and family accounts; every API route checks who is asking (111 permission tests, every "No" included, plus message, note, export and buddy access suites).
+- **Real sign-in and server-side permissions.** Nurse, mobility aide, patient and family accounts; every API route checks who is asking (111 permission tests, every "No" included, plus message, note, export and buddy access suites).
 - **Staff-started bedside sessions.** Staff press **Start on bedside tablet**; the patient unlocks with a 4-digit PIN on a sleeping-pet lock screen. Auto re-lock after 5 idle minutes, a 1-minute block after 5 wrong PINs, and staff can end a session.
-- **Care Team tab** (was "Nurse") with a **Mobility Aid view** (worklist, one-tap check-offs) and a **Nurse view** (unit metrics, sortable benchmark table with trend sparklines).
+- **Care Team tab** (was "Nurse") with a **Mobility Aide view** (worklist, one-tap check-offs) and a **Nurse view** (unit metrics, sortable benchmark table with trend sparklines).
 - **Messages for every role**, with full history: family, care team ↔ patient, staff 1:1, a unit thread, and patient tags. Patient messages get the symptom scan: delivered, call-button card, keyword-only flag.
 - **Private notes** for staff, visible only to their author.
 - **Exports** (CSV and Excel) of mobility data only, with an append-only export log.
@@ -105,7 +105,7 @@ Everyone signs in, and the server checks every request against the permissions t
 | Who | How they sign in | Credentials |
 |---|---|---|
 | Nurse 1, Nurse 2 | Username + password | `nurse1` / `nurse2`, password `mobipet-demo` |
-| Mobility Aid 1, Mobility Aid 2 | Username + password | `aid1` / `aid2`, password `mobipet-demo` |
+| Mobility Aide 1, Mobility Aide 2 | Username + password | `aid1` / `aid2`, password `mobipet-demo` |
 | Patients | Staff open the patient in Care Team and press **Start on bedside tablet**; the patient types their 4-digit PIN | Room 410 `4104` · 411 `4111` · 412 `4118` · 413 `4125` · 414 `4132` · 415 `4139` · 416 `4146` · 417 `4153` · 418 `4160` · 419 `4167` · 420 `4174` |
 | Family of Room 4xx | Invite code at `/family` | `PIP-410` … `PIP-419` (`PIP-420` after the New admission scenario) |
 
@@ -113,11 +113,11 @@ Everyone signs in, and the server checks every request against the permissions t
 
 | View | Highlights |
 |---|---|
-| **Patient tablet** (`/bedside`) | Pet with idle breathing, blinking, bounce, sleep and celebration; plain-language goal card with friendly segments and words, never counts or percentages; "I did it!" buttons limited to the nurse-set level; full-screen **Call your nurse before standing** gate for needs-assist patients; **I need help** fixed in a sticky top bar; **pet setup** in three simple steps (friend, color, one accessory) plus a name (six suggestions or type your own), with Surprise me and a default on every step; skipping gives the default Pip, and Settings has "Change my pet" (staff can press **Help set up pet** in the drawer to open it on the tablet); **Talk to Pip** chat (voice or text) behind a floating round button in the bottom-right corner that shows the pet's face, pulses gently only for a new nudge, and opens a panel that slides up (closes with X, a tap outside, or Esc; focus returns to the button); 4-second breathing guide; gentle nudges (max one per hour, snoozable); family messages delivered by the pet; Journey Home map with progress in words only ("Pip is exploring the Riverside Path" and a "Next stop" signpost, never step counts), keepsake shelf, wardrobe (every accessory available from the start); settings for text size (3), high contrast, read-aloud, language, sound (on by default) and a volume slider, saved per patient; a **welcome-back** greeting every time the tablet wakes (after the PIN, including after the inactivity lock): the pet wakes, stretches and bounces over, says one of six lines aloud by first name, skips with one tap, has its own mute button, and is a simple fade under reduced motion |
-| **Care Team** (`/care-team`) | Toggle between **Mobility Aid view** (worklist sorted "Needs a walk now" first, big check-off buttons that record staff-confirmed activity with who logged it, one-tap confirm of self-reports) and **Nurse view** (unit metrics: % of patient-shifts goal met today and over 7 days, patients behind, open safety flags, unconfirmed self-reports; and a sortable **patient benchmark table**: current goal, highest level this shift, % of shifts goal met since admission, trend sparkline with a text label, comparison with the unit average, days since admission, last activity). Both views have: unit board sorted "needs attention" first (icon + text status, never color alone); AI unit summary where every bullet shows its supporting data; safety flags panel with Acknowledge; patient drawer to set the JH-HLM goal and clearance (nurses only; shown disabled for aides), confirm/reject patient-reported logs, read the Talk to Pip log with "What the AI saw" for each reply, mute AI coaching, pause nudges, and leave a note for the patient |
+| **Patient tablet** (`/bedside`) | Pet with idle breathing, blinking, bounce, sleep and celebration; plain-language goal card with friendly segments and words, never counts or percentages; "I did it!" buttons limited to the nurse-set level; full-screen **Call your nurse before standing** gate for needs-assist patients; **I need help** fixed in a sticky top bar; **pet setup** in three simple steps (friend, color, one accessory) plus a name (six suggestions or type your own), with Surprise me and a default on every step; skipping gives the default Pip, and Settings has "Change my pet" (staff can press **Help set up pet** in the drawer to open it on the tablet); **Talk to Pip** chat (voice or text) behind a floating round button in the bottom-right corner that shows the pet's face, pulses gently only for a new nudge, and opens a panel that slides up (closes with X, a tap outside, or Esc; focus returns to the button); 4-second breathing guide; gentle nudges (max one per hour, snoozable); family messages delivered by the pet; Journey Home map with progress in words only ("Pip is exploring the Riverside Path" and a "Next stop" signpost, never step counts), Treasure shelf, wardrobe (every accessory available from the start); settings for text size (3), high contrast, read-aloud, language, sound (on by default) and a volume slider, saved per patient; a **welcome-back** greeting every time the tablet wakes (after the PIN, including after the inactivity lock): the pet wakes, stretches and bounces over, says one of six lines aloud by first name, skips with one tap, has its own mute button, and is a simple fade under reduced motion |
+| **Care Team** (`/care-team`) | Toggle between **Mobility Aide view** (worklist sorted "Needs a walk now" first, big check-off buttons that record staff-confirmed activity with who logged it, one-tap confirm of self-reports) and **Nurse view** (unit metrics: % of patient-shifts goal met today and over 7 days, patients behind, open safety flags, unconfirmed self-reports; and a sortable **patient benchmark table**: current goal, highest level this shift, % of shifts goal met since admission, trend sparkline with a text label, comparison with the unit average, days since admission, last activity). Both views have: unit board sorted "needs attention" first (icon + text status, never color alone); AI unit summary where every bullet shows its supporting data; safety flags panel with Acknowledge; patient drawer to set the JH-HLM goal and clearance (nurses only; shown disabled for aides), confirm/reject patient-reported logs, read the Talk to Pip log with "What the AI saw" for each reply, mute AI coaching, pause nudges, and leave a note for the patient |
 | **Family** (`/family`) | Invite code (demo: `PIP-410` … `PIP-420`); pet and journey only; preset cheers, photo-free stickers, and short filtered messages. Family members can't log activity; when walking is in the plan they see a note that the patient can tap the walk on the tablet |
 | **Exports** (Care Team, Nurse view) | **Export unit data**, or **Export** on any patient's row or drawer, as CSV or Excel (.xlsx). Built on the server after a permission check (`exceljs`). Mobility data only: patient ID, room, first name and last initial, admission date, every activity log (time, JH-HLM level, self-reported or confirmed, logged/confirmed by role and account), goals over time and shift goal-met results. Never messages, notes, AI chat or safety-flag text. CSV starts with a `SYNTHETIC DEMO DATA — MobiPet` row; every Excel sheet has the same header note. Files are named like `mobipet_unit_2026-11-04.xlsx` and `mobipet_room412_2026-11-04.csv`. Every export is recorded (who, role, when, scope, format, row count) in the append-only **Export history** |
-| **Walking buddies** (patients) | Off by default; the patient turns on "Cheer on other walkers" in Settings or the Messages tab. Other patients appear **only** as their pet ("Pip the turtle", plus a color word when two pets look alike, e.g. "Pip the green cloud"); the server never sends names, rooms or ids. **Preset cheers only** ("Good work!", "Keep going!", "You've got this!", "Proud of you!") and four stickers; anything else is rejected. At most 5 sends per patient and 10 received per buddy each day, enforced on the server. A nurse or aid can turn walking buddies off for any patient from the drawer |
+| **Walking buddies** (patients) | Off by default; the patient turns on "Cheer on other walkers" in Settings or the Messages tab. Other patients appear **only** as their pet ("Pip the turtle", plus a color word when two pets look alike, e.g. "Pip the green cloud"); the server never sends names, rooms or ids. **Preset cheers only** ("Good work!", "Keep going!", "You've got this!", "Proud of you!") and four stickers; anything else is rejected. At most 5 sends per patient and 10 received per buddy each day, enforced on the server. A nurse or aide can turn walking buddies off for any patient from the drawer |
 | **My notes** (Care Team) | Personal reminders, general or attached to a patient (also shown in that patient's drawer). Visible only to their author, enforced on the server; create, edit and delete with timestamps; labeled "Personal reminders only — clinical information belongs in the medical record." Never exported |
 | **Messages** (every role) | Full, scrollable, timestamped history of every conversation you're part of, enforced on the server: patients have **Family** and **Care team** conversations with a large reply box, voice input and quick replies; family see their thread with the patient's replies; staff see each patient's care team thread, the **unit thread** and **1:1 threads** with any other staff member (unread counts, live delivery, "For urgent issues, use the call system" in the composer). Staff messages can be **tagged to a patient**: they show a patient chip and also appear under "Messages about this patient" in that patient's drawer, only for people who can already see them. Messages to a patient still arrive as cards the pet delivers. Every message a patient sends gets the rule-based symptom scan: it is still delivered, the patient sees "Press your call button now", and the Care Team gets a safety flag showing only the matched keyword |
 | **Demo controls** (`/demo`) | Simulated clock and shift jumps; one-click scenarios; links to open views side by side; reset; **Impact panel** with a synthetic 7-day trend and an editable ROI calculator |
@@ -126,9 +126,9 @@ Everyone signs in, and the server checks every request against the permissions t
 
 Rules live in one place, `server/auth/permissions.ts`, applied by middleware on every route. `tests/permissions.test.ts`, `tests/messages.test.ts`, `tests/notes.test.ts`, `tests/exports.test.ts` and `tests/buddies.test.ts` check every row, including every "No".
 
-| Action | Nurse | Mobility aid | Patient | Family |
+| Action | Nurse | Mobility aide | Patient | Family |
 | --- | --- | --- | --- | --- |
-| See Care Team tab (both Aid and Nurse views) | Yes | Yes | No | No |
+| See Care Team tab (both Aide and Nurse views) | Yes | Yes | No | No |
 | See all unit patients' mobility data | Yes | Yes | No | No |
 | See own patient's mobility data | — | — | Own only | Own patient only |
 | Set or change a patient's JH-HLM goal and clearance level | Yes | **No** (shown disabled: "Only nurses can change goals") | No | No |
@@ -174,7 +174,7 @@ flowchart LR
     SW[Demo switcher<br/>fills real credentials]
     SI[Sign-in / PIN lock]
     P[Bedside tablet]
-    CT[Care Team<br/>Aid view · Nurse view]
+    CT[Care Team<br/>Aide view · Nurse view]
     F[Family view]
   end
 
@@ -254,7 +254,7 @@ flowchart TD
 
 ## Accessibility (WCAG 2.2 AA)
 
-**v2 pass (item 17):** `window.__audit()` (axe-core, WCAG 2.2 AA + best practice, 48px targets, 20px patient text) reports zero issues on: sign-in, PIN lock screen, bedside tablet (English and Spanish), welcome back, pet setup (every step, including "Type my own"), Messages (Family, Care team, Walking buddies), floating chat, Settings, Care Team Aid view and Nurse view, patient drawer, staff Messages, My notes, the export dialog, the family view, the demo switcher and demo controls. Keyboard-only: the tablet's tab order is skip link → Settings → Messages → I need help → goal → activity buttons → pet → map → chat button; every dialog traps focus, closes with Esc and returns focus; the welcome-back overlay takes focus so Esc, Enter or Space skip it. All new controls have visible labels or screen-reader labels, sort buttons expose `aria-sort`, and trends are always text as well as a sparkline.
+**v2 pass (item 17):** `window.__audit()` (axe-core, WCAG 2.2 AA + best practice, 48px targets, 20px patient text) reports zero issues on: sign-in, PIN lock screen, bedside tablet (English and Spanish), welcome back, pet setup (every step, including "Type my own"), Messages (Family, Care team, Walking buddies), floating chat, Settings, Care Team Aide view and Nurse view, patient drawer, staff Messages, My notes, the export dialog, the family view, the demo switcher and demo controls. Keyboard-only: the tablet's tab order is skip link → Settings → Messages → I need help → goal → activity buttons → pet → map → chat button; every dialog traps focus, closes with Esc and returns focus; the welcome-back overlay takes focus so Esc, Enter or Space skip it. All new controls have visible labels or screen-reader labels, sort buttons expose `aria-sort`, and trends are always text as well as a sparkline.
 
 - Patient view text is at least 20 px. Three text sizes (20 / 24 / 28 px base) scale the whole layout.
 - Every control is at least 48 px. Every control is keyboard reachable and labeled. A **Skip to main content** link comes first.
@@ -298,7 +298,7 @@ Before you start: open the **Demo** drawer → **Clock, scenarios, reset** → *
 
 | Time | Do | Say |
 |---|---|---|
-| **0:00–0:40** | Demo → **Mobility Aid 1**. Show the Care Team toggle, then the worklist. Tap **Moved to chair** on Room 412. | "Nurses set a JH-HLM goal; aides do the walking. Aides get a worklist sorted by who needs a walk now, and one tap records a staff-confirmed activity with who logged it." Open a patient: the goal editor is disabled, "Only nurses can change goals." |
+| **0:00–0:40** | Demo → **Mobility Aide 1**. Show the Care Team toggle, then the worklist. Tap **Moved to chair** on Room 412. | "Nurses set a JH-HLM goal; aides do the walking. Aides get a worklist sorted by who needs a walk now, and one tap records a staff-confirmed activity with who logged it." Open a patient: the goal editor is disabled, "Only nurses can change goals." |
 | **0:40–1:30** | Toggle to **Nurse view**. Show the unit metrics, then sort the benchmark table by **Shifts goal met**. | "The nurse sees how the unit is doing today and this week, and each patient's trend since admission, with the numbers beside every claim." |
 | **1:30–2:30** | Open Room 410 → **Start on bedside tablet** → OK. Type PIN **4104**. | "Patients never pick who they are. Staff start the session; the patient unlocks with a PIN." The pet wakes up and says "Welcome back, Marigold!" aloud. Point at the mute button and the Settings volume slider. |
 | **2:30–3:15** | Demo → **New admission picks a pet** (Demo controls). Tap **Surprise me**, then **Next** through the steps, then a name. | "Three big steps and a name, with a default on every step, so tapping Next always works. Skipping gives you Pip. The pet never has a gender; nothing ever calls it he, she or they." |
@@ -307,7 +307,7 @@ Before you start: open the **Demo** drawer → **Clock, scenarios, reset** → *
 | **5:00–5:40** | Demo → **Nurse 1** → Nurse view → **Export unit data** → Excel. Show **Export history**. | "Mobility data only, labeled synthetic, built on the server after a permission check, and every export is logged with who did it." |
 | **5:40–6:00** | Close: **What's new in v2** above, then Demo controls → **Impact panel**. | "Next step: a controlled pilot on the lung transplant step-down unit." |
 
-**One-click shortcuts** in Demo controls: **Aid checks off a walk**, **Patient tells family they feel dizzy (flag)**, **Buddy cheer**, **Nurse exports unit data**, **Welcome back after lock** (locks the tablet; enter the PIN to replay the greeting), plus the v1 **Patient meets goal**, **Patient reports dizziness**, **Family sends cheer** and **Lunch tray collected (nudge)**.
+**One-click shortcuts** in Demo controls: **Aide checks off a walk**, **Patient tells family they feel dizzy (flag)**, **Buddy cheer**, **Nurse exports unit data**, **Welcome back after lock** (locks the tablet; enter the PIN to replay the greeting), plus the v1 **Patient meets goal**, **Patient reports dizziness**, **Family sends cheer** and **Lunch tray collected (nudge)**.
 
 ---
 
@@ -337,5 +337,6 @@ Jake Bradley, Queenie Qiu, Brett Serafini, Matt Roby
 |---|---|---|---|
 | Claude Code (desktop app) | Claude Opus 5.5 (`claude-opus-5-5`) | Build plan; writing the client, server, shared logic, prompts, templates, tests, the browser-only demo build and this README; in-browser testing and accessibility audits; publishing setup (GitHub Pages workflow, privacy scan) | Plan approved by the team before coding; each phase reviewed before continuing |
 | Anthropic API, called **by the app at runtime** | Claude Sonnet 5.5 (`claude-sonnet-5-5`) via `@anthropic-ai/sdk` 1.3.0 | Talk to Pip replies, nudges, unit-summary wording, family-message check (AI mode only) | Guardrail pipeline; every call logged and visible to nurses |
+| *(add)* | | | |
 
 **Runtime AI boundaries:** the model never sets goals, never receives clinical data, and never answers medical questions. Rule-based checks run before and after every call. Template mode works with no AI at all.

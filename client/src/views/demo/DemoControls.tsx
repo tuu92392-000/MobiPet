@@ -123,8 +123,8 @@ export function DemoControls() {
             <button disabled={busy} onClick={() => void scenario('family-cheer', 'Family cheer')} className={btn}>
               <Heart aria-hidden size={18} /> Family sends cheer
             </button>
-            <button disabled={busy} onClick={() => void scenario('aid-check-off', 'Aid check-off')} className={btn}>
-              <Footprints aria-hidden size={18} /> Aid checks off a walk
+            <button disabled={busy} onClick={() => void scenario('aid-check-off', 'Aide check-off')} className={btn}>
+              <Footprints aria-hidden size={18} /> Aide checks off a walk
             </button>
             <button disabled={busy} onClick={() => void scenario('dizzy-message', 'Dizzy message')} className={btn}>
               <Mail aria-hidden size={18} /> Patient tells family they feel dizzy (flag)

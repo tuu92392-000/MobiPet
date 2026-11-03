@@ -1,4 +1,4 @@
-// Care Team tab, for nurses and mobility aids. The toggle only changes the layout: both roles can use
+// Care Team tab, for nurses and mobility aides. The toggle only changes the layout: both roles can use
 // both views, and every view keeps the board, drawer, flags, AI logs, mute AI and notes to the patient.
 import { useEffect, useMemo, useState } from 'react';
 import { ClipboardList, Footprints, Search } from 'lucide-react';
@@ -102,7 +102,7 @@ export function CareTeam() {
           <StaffMessagesButton unread={unread} onOpen={() => setMessagesOpen(null)} />
           <MyNotesButton onOpen={() => setNotesOpen(true)} />
           <div role="group" aria-label="Care Team layout" className="flex rounded-full border-2 border-line bg-paper p-1">
-            {toggle('aid', 'Mobility Aid view', Footprints)}
+            {toggle('aid', 'Mobility Aide view', Footprints)}
             {toggle('nurse', 'Nurse view', ClipboardList)}
           </div>
         </div>

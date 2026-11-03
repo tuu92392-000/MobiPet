@@ -26,7 +26,7 @@ check "Anthropic API keys" 'sk-ant-[A-Za-z0-9_-]{8,}'
 check "API key variables with a value" '(ANTHROPIC_API_KEY|OPENAI_API_KEY|API_KEY)[[:space:]]*=[[:space:]]*[^[:space:]#]+'
 check "Hard-coded keys, secrets or tokens" "(api[_-]?key|secret|access[_-]?token)['\"]?[[:space:]]*[:=][[:space:]]*['\"][A-Za-z0-9_./+=-]{16,}['\"]" -i
 check "GitHub, AWS, Slack tokens or private keys" '(gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16}|xox[baprs]-[A-Za-z0-9-]{10,}|-----BEGIN [A-Z ]*PRIVATE KEY)'
-check "Long random-looking tokens (outside package-lock)" '[A-Za-z0-9_+/-]{48,}' --exclude=package-lock.json
+check "Long random-looking tokens (outside package-lock)" '[A-Za-z0-9+/]{40,}' --exclude=package-lock.json
 check "This computer's username or home path" "($(whoami)|$HOME|/Users/[A-Za-z0-9._-]+/|C:\\\\Users\\\\)" -i
 name=$(git config --global user.name 2>/dev/null || true); email=$(git config --global user.email 2>/dev/null || true)
 [ -n "$name" ] && check "Git author name" "$name" -i

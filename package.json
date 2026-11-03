@@ -13,7 +13,8 @@
     "preview:demo": "vite preview --config client/vite.demo.config.ts",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
-    "reset-data": "tsx server/resetData.ts"
+    "reset-data": "tsx server/resetData.ts",
+    "publish:github": "bash scripts/publish-to-github.sh"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "1.3.0",

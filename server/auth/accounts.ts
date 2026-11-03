@@ -8,8 +8,8 @@ export const STAFF_PASSWORD = 'mobipet-demo';
 export const STAFF: { id: string; role: Account['role']; label: string; username: string }[] = [
   { id: 'acct_nurse1', role: 'nurse', label: 'Nurse 1', username: 'nurse1' },
   { id: 'acct_nurse2', role: 'nurse', label: 'Nurse 2', username: 'nurse2' },
-  { id: 'acct_aid1', role: 'mobility_aid', label: 'Mobility Aid 1', username: 'aid1' },
-  { id: 'acct_aid2', role: 'mobility_aid', label: 'Mobility Aid 2', username: 'aid2' },
+  { id: 'acct_aid1', role: 'mobility_aid', label: 'Mobility Aide 1', username: 'aid1' },
+  { id: 'acct_aid2', role: 'mobility_aid', label: 'Mobility Aide 2', username: 'aid2' },
 ];
 
 export function hashSecret(secret: string, salt = randomHex(16)) {

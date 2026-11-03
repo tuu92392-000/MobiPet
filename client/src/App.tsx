@@ -6,7 +6,7 @@ import { api } from './api/client';
 import { LiveBadge } from './components/LiveBadge';
 import { useLiveStatus } from './lib/live';
 import { DemoControls } from './views/demo/DemoControls';
-import { PetSvg } from './pets/PetSvg';
+import { LOGO_COLORS, PetSvg } from './pets/PetSvg';
 import { CareTeam } from './views/careteam/CareTeam';
 import { useSession, isStaffRole } from './auth/session';
 import { SignIn } from './views/auth/SignIn';
@@ -123,7 +123,7 @@ export default function App() {
         </div>
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-paper px-4 py-2">
           <span className="inline-flex items-center gap-1.5 font-display text-xl font-extrabold">
-            <PetSvg species="nimbus" palette={0} mood="happy" label="" className="h-9 w-9" />
+            <PetSvg species="nimbus" palette={0} colors={LOGO_COLORS} mood="happy" label="" className="h-9 w-9" />
             MobiPet
           </span>
           {staff && (

@@ -1,5 +1,5 @@
 // Plays every time the tablet wakes (PIN unlock, including after the inactivity lock): the pet wakes,
-// stretches, perks up and bounces toward the patient, and says hello aloud by first name.
+// stretches, perks up and bounces toward the patient, and says hello by first name (aloud only with read-aloud on).
 // Under 3 seconds, one tap anywhere skips it, and it is a simple fade under reduced motion.
 import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
@@ -18,16 +18,16 @@ interface Props {
   region: RegionId;
   t: Translate;
   onDone: () => void;
-  onSound: (on: boolean) => void;
+  onReadAloud: (on: boolean) => void;
 }
 
-export function WelcomeBack({ patient, region, t, onDone, onSound }: Props) {
+export function WelcomeBack({ patient, region, t, onDone, onReadAloud }: Props) {
   const reduce = useReducedMotion();
   const pet = patient.pet!;
   // Chosen once per wake.
   const [line] = useState(() => welcomeLine(t, patient.settings.language, patient, region, Math.floor(Math.random() * 6)));
   const [awake, setAwake] = useState(false);
-  const [soundOn, setSoundOn] = useState(patient.settings.sound);
+  const [soundOn, setSoundOn] = useState(patient.settings.readAloud);
   const done = useRef(false);
   const root = useRef<HTMLDivElement>(null);
 
@@ -42,7 +42,7 @@ export function WelcomeBack({ patient, region, t, onDone, onSound }: Props) {
     root.current?.focus();
     const wake = window.setTimeout(() => setAwake(true), reduce ? 0 : 700);
     const end = window.setTimeout(finish, DURATION_MS);
-    if (patient.settings.sound) speak(line, patient.settings.language);
+    if (patient.settings.readAloud) speak(line, patient.settings.language);
     return () => {
       window.clearTimeout(wake);
       window.clearTimeout(end);
@@ -55,7 +55,7 @@ export function WelcomeBack({ patient, region, t, onDone, onSound }: Props) {
     const next = !soundOn;
     setSoundOn(next);
     if (!next) window.speechSynthesis?.cancel();
-    onSound(next);
+    onReadAloud(next);
   }
 
   return (

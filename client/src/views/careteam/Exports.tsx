@@ -107,7 +107,7 @@ export function ExportHistory() {
               {log.slice(0, 12).map((e) => (
                 <tr key={e.id} className="border-t border-line">
                   <td className="py-1.5 pr-2">{formatWhen(e.at, now)}</td>
-                  <td className="py-1.5 pr-2">{e.label} <span className="text-muted">({e.role === 'nurse' ? 'Nurse' : 'Mobility aid'})</span></td>
+                  <td className="py-1.5 pr-2">{e.label} <span className="text-muted">({e.role === 'nurse' ? 'Nurse' : 'Mobility aide'})</span></td>
                   <td className="py-1.5 pr-2">{e.scopeLabel}</td>
                   <td className="py-1.5 pr-2">{e.format === 'xlsx' ? 'Excel' : 'CSV'}</td>
                   <td className="py-1.5 pr-2">{e.rowCount}</td>

@@ -188,7 +188,7 @@ describe('setting the JH-HLM goal: nurses only', () => {
     expect(r.status).toBe(200);
     expect(r.body.patient.goal.setBy).toBe('Nurse 1');
   });
-  it('mobility aid, patient and family no', async () => {
+  it('mobility aide, patient and family no', async () => {
     expect((await call('PUT', `/patients/${OTHER}/goal`, tokens.aid, goal)).status).toBe(403);
     expect((await call('PUT', `/patients/${OWN}/goal`, tokens.patient, goal)).status).toBe(403);
     expect((await call('PUT', `/patients/${OWN}/goal`, tokens.family, goal)).status).toBe(403);
@@ -210,7 +210,7 @@ describe('logging and confirming activity', () => {
     const r = await call('POST', `/patients/${OWN}/logs/staff`, tokens.aid, { level: 4 });
     expect(r.status).toBe(201);
     expect(r.body.log.status).toBe('confirmed');
-    expect(r.body.log.loggedBy).toEqual({ accountId: 'acct_aid1', role: 'mobility_aid', label: 'Mobility Aid 1' });
+    expect(r.body.log.loggedBy).toEqual({ accountId: 'acct_aid1', role: 'mobility_aid', label: 'Mobility Aide 1' });
     expect((await call('POST', `/patients/${OWN}/logs/staff`, tokens.nurse, { level: 5 })).status).toBe(201);
   });
 
@@ -227,7 +227,7 @@ describe('logging and confirming activity', () => {
     expect((await call('POST', `/logs/${pending.id}/confirm`, tokens.family)).status).toBe(403);
     const confirmed = await call('POST', `/logs/${pending.id}/confirm`, tokens.aid);
     expect(confirmed.status).toBe(200);
-    expect(confirmed.body.reviewedBy.label).toBe('Mobility Aid 1');
+    expect(confirmed.body.reviewedBy.label).toBe('Mobility Aide 1');
   });
 });
 

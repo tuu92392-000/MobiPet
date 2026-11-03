@@ -82,6 +82,7 @@ export function TalkToPip({ open, view, t, onClose, onAction }: Props) {
           <PetSvg species={pet.species} palette={pet.palette} mood={pending ? 'curious' : 'happy'} accessory={pet.accessory} label="" className="h-14 w-14 shrink-0" />
           <div className="flex-1">
             <h2 id="chat-title" className="font-display text-2xl font-extrabold">{t('chat.title', { pet: pet.name })}</h2>
+            <p className="text-sm font-bold text-muted">{t('chat.aiLabel')}</p>
             <p id="chat-disclaimer" className="text-base text-muted">{t('chat.disclaimer', { pet: pet.name })}</p>
           </div>
           <button onClick={onClose} aria-label={t('chat.close')} className="flex min-h-tap min-w-tap shrink-0 items-center justify-center self-start rounded-full border-2 border-line hover:bg-line/50">
