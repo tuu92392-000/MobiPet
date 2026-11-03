@@ -1,0 +1,26 @@
+# Dependencies and builds
+node_modules/
+dist/
+dist-demo/
+
+# Secrets: only the example file is ever committed
+.env
+.env.*
+!.env.example
+
+# Runtime data and logs (recreated from the seed code)
+server/data/
+*.log
+
+# Local-only docs and tooling
+CLAUDE.md
+.claude/
+.vscode/
+.idea/
+
+# Backups and OS files
+*.zip
+.DS_Store
+
+# Local publishing patterns
+.publish-private

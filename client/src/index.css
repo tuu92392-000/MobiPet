@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Palette as RGB triplets. Text colors are chosen for ≥ 4.5:1 on cream. */
+:root {
+  --cream: 251 247 239;
+  --paper: 255 255 255;
+  --ink: 43 42 40;
+  --muted: 92 88 82;
+  --line: 222 214 200;
+  --sage: 168 199 175;
+  --sage-deep: 54 99 69;
+  --sky: 176 209 236;
+  --sky-deep: 36 88 133;
+  --coral: 246 160 138;
+  --coral-deep: 166 60 38;
+  --cherry: 157 34 53;
+  --alert: 150 40 20;
+}
+
+/* High-contrast theme: toggled per patient in Settings (phase 9 adds full styling). */
+.theme-contrast {
+  --cream: 255 255 255;
+  --paper: 255 255 255;
+  --ink: 0 0 0;
+  --muted: 30 30 30;
+  --line: 0 0 0;
+  --sage: 200 230 205;
+  --sage-deep: 0 70 25;
+  --sky: 200 225 250;
+  --sky-deep: 0 50 110;
+  --coral: 255 200 185;
+  --coral-deep: 120 30 10;
+  --alert: 120 0 0;
+}
+
+html,
+body {
+  background: rgb(var(--cream));
+  color: rgb(var(--ink));
+}
+
+body {
+  @apply font-body antialiased;
+}
+
+:focus-visible {
+  outline: 3px solid rgb(var(--sky-deep));
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Floating chat: the panel slides up from the corner; the button pulses only when there is a new nudge. */
+@media (prefers-reduced-motion: no-preference) {
+  .slide-up-corner[open] {
+    animation: slide-up-corner 220ms ease-out;
+  }
+  .pulse-ring {
+    animation: pulse-ring 1.8s ease-out infinite;
+  }
+}
+
+@keyframes slide-up-corner {
+  from {
+    transform: translateY(24px) scale(0.96);
+    transform-origin: bottom right;
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgb(var(--sage-deep) / 0.55);
+  }
+  80%,
+  100% {
+    box-shadow: 0 0 0 18px rgb(var(--sage-deep) / 0);
+  }
+}
