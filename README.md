@@ -336,7 +336,6 @@ Jake Bradley, Queenie Qiu, Brett Serafini, Matt Roby
 | Tool | Version / model | Used for | Human review |
 |---|---|---|---|
 | Claude Code (desktop app) | Claude Opus 5.5 (`claude-opus-5-5`) | Build plan; writing the client, server, shared logic, prompts, templates, tests, the browser-only demo build and this README; in-browser testing and accessibility audits; publishing setup (GitHub Pages workflow, privacy scan) | Plan approved by the team before coding; each phase reviewed before continuing |
-| Anthropic API, called **by the app at runtime** | Claude Sonnet 5.5 (`claude-sonnet-5-5`) via `@anthropic-ai/sdk` 1.3.0 | Talk to Pip replies, nudges, unit-summary wording, family-message check (AI mode only) | Guardrail pipeline; every call logged and visible to nurses |
-| *(add)* | | | |
+| Anthropic API, called **by the app at runtime** | Claude Sonnet 5.5 (`claude-sonnet-5-5`) via `@anthropic-ai/sdk` 1.3.0 | Ideate over our solution concept, talk to Pip replies, nudges, unit-summary wording, family-message check (AI mode only) | Guardrail pipeline; every call logged and visible to nurses |
 
 **Runtime AI boundaries:** the model never sets goals, never receives clinical data, and never answers medical questions. Rule-based checks run before and after every call. Template mode works with no AI at all.
