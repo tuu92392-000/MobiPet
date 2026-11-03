@@ -324,7 +324,6 @@ Before you start: open the **Demo** drawer → **Clock, scenarios, reset** → *
 ## Team
 
 <!-- TEAM:START (kept as-is when publishing; edit it on GitHub or in the public copy) -->
-[Team member names]
 Jake Bradley, Queenie Qiu, Brett Serafini, Matt Roby
 <!-- TEAM:END -->
 
